@@ -119,9 +119,9 @@ export default class ProductAll extends Component {
             <View style={styles.flatlist}>
                 <Text>Lista de Productos </Text>
                 <FlatList
-                    data={this.state.lista}
+                    data={this.state.data}
                     keyExtractor={item => item.id.toString()}
-                    renderItem={({ item }) => <Card info= {item}/>} />
+                    renderItem={({ item }) => <Card {...item} />} />
             </View>
         )
     }
