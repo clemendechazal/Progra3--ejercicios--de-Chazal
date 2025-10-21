@@ -8,8 +8,6 @@ export default function App() {
       <text style={styles.texto}>Probando FlatLists</text>
       <ProductLists/>
     </View>
-
-
   );
 }
 
