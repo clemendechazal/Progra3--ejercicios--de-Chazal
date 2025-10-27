@@ -1,58 +1,112 @@
-import { StatusBar } from 'expo-status-bar';
-import { Text, View, Pressable, StyleSheet} from 'react-native';
+import React, { Component } from "react"
+import { View, Pressable, Text, StyleSheet, TextInput } from "react-native"
 
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mail: "",
+      password: ""
+    }
+  }
 
-export default function Login(props) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Aca te podes logear</Text>
-      <Pressable style={styles.botonCeleste}
-            onPress={()=> props.navigation.navigate("Register")} >
-            <Text style={styles.textoBoton}> ir al registro</Text>
-            </Pressable>
-            <Pressable style={styles.botonNaranja}
-            onPress={()=> props.navigation.navigate("HomeMenu")} >
-            <Text style={styles.textoBoton}> Entrar en la app</Text>
-            </Pressable>
-    </View>
-  );
+  onSubmit(email, password) {
+      if (!email.includes("@")) {
+        this.setState({ error: 'Email mal formateado' })
+        return
+      }
+
+      if (password.length < 6) {
+        this.setState({ error: 'Password debe tener minimo 6 caracteres' })
+        return
+      }
+      
+      auth.signInWithEmailAndPassword(email, password)
+        .then((response) => {
+          this.setState({ loggedIn: true });
+          this.props.navigation.navigate('HomeMenu', { screen: 'Home' })
+        })
+        .catch(error => {
+          this.setState({ error: 'Credenciales inválidas.' })
+        })
+    };
+  
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Pressable style={styles.boton} onPress={() => this.props.navigation.navigate('Register')}>
+          <Text style={styles.text}>Registrate</Text>
+        </Pressable>
+
+        <Pressable style={styles.boton} onPress={() => this.props.navigation.navigate('HomeMenu', { screen: 'Home' })}>
+          <Text style={styles.text}>Home</Text>
+        </Pressable>
+
+        <TextInput
+          style={styles.texto}
+          keyboardType='email-address'
+          placeholder='Email'
+          onChangeText={text => this.setState({ mail: text })}
+          value={this.state.mail}
+        />
+        <TextInput
+          style={styles.texto}
+          keyboardType='default'
+          placeholder='Password'
+          secureTextEntry={true}
+          onChangeText={text => this.setState({ password: text })}
+          value={this.state.password}
+        />
+        <Pressable onPress={() => this.onSubmit()}>
+          <Text style={styles.boton2}>Inicia Sesión</Text>
+        </Pressable>
+        <Text>{this.state.mail}</Text>
+        <Text>{this.state.password}</Text>
+      </View>
+    )
+  }
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f6f6f6', 
-    alignItems: 'center',
+    backgroundColor: "#c9e6cbff",
     justifyContent: 'center',
-    padding: 20,
+    alignItems: 'center'
   },
-  titulo: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    alignSelf: 'flex-start',
+  boton: {
+    backgroundColor: '#156110ff',
+    padding: 12,
+    marginVertical: 10,
+    borderRadius: 10,
+    width: '70%',
+    alignItems: 'center'
   },
-  botonCeleste: {
-    backgroundColor: '#42A5F5', 
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
+  boton2: {
+    backgroundColor: "#c9e6cbff",
+    padding: 12,
+    marginVertical: 10,
+    borderRadius: 10,
     width: '100%',
-    marginBottom: 15,
+    alignItems: 'center',
+    color: "#c9e6cbff",
+    fontWeight: 'bold'
   },
-  botonNaranja: {
-    backgroundColor: '#FFA000', 
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 8,
-    width: '100%',
-    marginTop: 5,
+
+  text: {
+    color: "#c9e6cbff",
+    fontWeight: 'bold'
   },
-  textoBoton: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-});
+  texto: {
+    width: '70%',
+    borderWidth: 1,
+    borderColor: '#156110ff',
+    borderRadius: 10,
+    padding: 10,
+    marginVertical: 8,
+    backgroundColor: "#c9e6cbff"
+  }
+})
+
+export default Login;
