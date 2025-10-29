@@ -6,6 +6,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import Entypo from '@expo/vector-icons/Entypo';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import usuarios from "../screens/usuarios";
+import NuevoPost from "../screens/NuevoPost";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
 const Tab = createBottomTabNavigator()
@@ -25,6 +27,10 @@ function HomeMenu() {
                 <Tab.Screen name="Usuarios" component={usuarios} options={{
                     headerShown: false,
                     tabBarIcon: () => <Entypo name="users" size={24} color="black" />
+                }} />
+                <Tab.Screen name="Nuevo Post" component={NuevoPost} options={{
+                    headerShown: false,
+                    tabBarIcon: () => <MaterialIcons name="add-a-photo" size={24} color="black" />
                 }} />
             </Tab.Navigator>
     )
